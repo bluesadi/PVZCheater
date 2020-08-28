@@ -43,7 +43,6 @@ int main() {
 				scanf("%d",&amount);
 				if (amount >= 0) {
 					writeDword(hPVZProcess, SUN_ADDRESS, amount);
-					success();
 					break;
 				}
 				wrongArg("Sun should be positive or zero.");
@@ -53,7 +52,6 @@ int main() {
 				scanf("%d", &amount);
 				if (amount >= 0) {
 					writeDword(hPVZProcess, SUN_PICKED_UP_ONCE_ADDRESS, amount);
-					success();
 					break;
 				}
 				wrongArg("Sun picked up once should be positive or zero.");
