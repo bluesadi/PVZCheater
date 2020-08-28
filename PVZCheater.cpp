@@ -37,16 +37,26 @@ int main() {
 		printf("Please type the number: ");
 		scanf("%d", &command);
 		switch (command) {
+			int amount;
 			case 1:
 				print("How many?");
-				int amount;
 				scanf("%d",&amount);
 				if (amount >= 0) {
 					writeDword(hPVZProcess, SUN_ADDRESS, amount);
-					print("Modification success.");
-				} else {
-					wrongArg("Sun should be positive or zero.");
+					success();
+					break;
 				}
+				wrongArg("Sun should be positive or zero.");
+				break;
+			case 2:
+				print("How many?");
+				scanf("%d", &amount);
+				if (amount >= 0) {
+					writeDword(hPVZProcess, SUN_PICKED_UP_ONCE_ADDRESS, amount);
+					success();
+					break;
+				}
+				wrongArg("Sun picked up once should be positive or zero.");
 				break;
 			case 3:
 				print("Good bye~");
