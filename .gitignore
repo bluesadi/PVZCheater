@@ -1,3 +1,8 @@
 /.vs
 /Debug
 /Release
+/PVZCheater.sln
+/PVZCheater.vcxproj
+/PVZCheater.vcxproj.filters
+/PVZCheater.vcxproj.user
+/.gitignore
