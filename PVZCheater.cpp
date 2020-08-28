@@ -1,5 +1,5 @@
-﻿#include <stdio.h>
-#include "MemoryUtil.h"
+﻿#include "MemoryUtil.h"
+#include "MessageUtil.h"
 #include <Tlhelp32.h>
 #include <Psapi.h>
 
@@ -16,15 +16,44 @@ HANDLE getPVZProcess() {
 	return NULL;
 }
 
+const char* COMMANDS[100] = {
+	"1. Modify sun",
+	"2. Modify sun picked up once",
+	"3. Exit"
+};
+
 int main() {
 	HANDLE hPVZProcess = getPVZProcess();
 	if (!hPVZProcess) {
-		puts("Can't find PVZ process.\n");
+		print("Can't find PVZ process.");
 		exit(0);
 	}
-	writeDword(hPVZProcess,SUN_INCREMENT_ADDRESS, 50);
-	DWORD result = readDword(hPVZProcess, SUN_INCREMENT_ADDRESS);
-	writeDword(hPVZProcess, SUN_AMOUNT_ADDRESS, 10000);
-	DWORD sun = readDword(hPVZProcess, SUN_AMOUNT_ADDRESS);
-	printf("%x", sun);
+	print("What do you wanna do?");
+	for (int i = 0; COMMANDS[i]; i++) {
+		printf("%s\n",COMMANDS[i]);
+	}
+	while (true) {
+		int command;
+		printf("Please type the number: ");
+		scanf("%d", &command);
+		switch (command) {
+			case 1:
+				print("How many?");
+				int amount;
+				scanf("%d",&amount);
+				if (amount >= 0) {
+					writeDword(hPVZProcess, SUN_ADDRESS, amount);
+					print("Modification success.");
+				} else {
+					wrongArg("Sun should be positive or zero.");
+				}
+				break;
+			case 3:
+				print("Good bye~");
+				exit(0);
+			default:
+				print("Wrong command.");
+				break;
+		}
+	}
 }
