@@ -18,8 +18,9 @@ HANDLE getPVZProcess() {
 
 const char* COMMANDS[100] = {
 	"1. Modify sun",
-	"2. Modify sun picked up once",
-	"3. Exit"
+	"2. Unlimited sun",
+	"3. Multiple plants on one grid",
+	"4. Exit"
 };
 
 int main() {
@@ -37,8 +38,8 @@ int main() {
 		printf("Please type the number: ");
 		scanf("%d", &command);
 		switch (command) {
-			int amount;
 			case 1:
+				int amount;
 				print("How many?");
 				scanf("%d",&amount);
 				if (amount >= 0) {
@@ -48,15 +49,21 @@ int main() {
 				wrongArg("Sun should be positive or zero.");
 				break;
 			case 2:
-				print("How many?");
-				scanf("%d", &amount);
-				if (amount >= 0) {
-					writeDword(hPVZProcess, SUN_PICKED_UP_ONCE_ADDRESS, amount);
+				if (readByte(hPVZProcess, SUB_SUN_ADDRESS) == 0x90) {
+					writeByte(hPVZProcess, SUB_SUN_ADDRESS, 0x2B);
+					writeByte(hPVZProcess, SUB_SUN_ADDRESS + 1, 0xF3);
+					print("Unlimited sun off.");
 					break;
 				}
-				wrongArg("Sun picked up once should be positive or zero.");
+				writeDword(hPVZProcess, SUN_ADDRESS, MAX_SUN);
+				writeByte(hPVZProcess, SUB_SUN_ADDRESS, 0x90);
+				writeByte(hPVZProcess, SUB_SUN_ADDRESS + 1, 0x90);
+				print("Unlimited sun on.");
 				break;
 			case 3:
+				writeByte(hPVZProcess, JUDGE_PLANT_PLACED_ADDRESS, 0x33); //patch test eax,eax to xor eax,eax
+				break;
+			case 4:
 				print("Good bye~");
 				exit(0);
 			default:
