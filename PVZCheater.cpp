@@ -1,7 +1,9 @@
 ﻿#include "MemoryUtil.h"
-#include "MessageUtil.h"
+#include <stdio.h>
 #include <Tlhelp32.h>
 #include <Psapi.h>
+#define print(x) printf("%s\n",x)
+#define getInt(x) scanf("%d",&x)
 
 HANDLE getPVZProcess() {
 	PROCESSENTRY32 processInfo;
@@ -16,7 +18,7 @@ HANDLE getPVZProcess() {
 	return NULL;
 }
 
-const char* COMMANDS[100] = {
+LPCSTR COMMANDS[100] = {
 	"1. Modify sun",
 	"2. Unlimited sun",
 	"3. Multiple plants on one grid",
@@ -31,22 +33,22 @@ int main() {
 	}
 	print("What do you wanna do?");
 	for (int i = 0; COMMANDS[i]; i++) {
-		printf("%s\n",COMMANDS[i]);
+		print(COMMANDS[i]);
 	}
 	while (true) {
 		int command;
 		printf("Please type the number: ");
-		scanf("%d", &command);
+		getInt(command);
 		switch (command) {
 			case 1:
 				int amount;
 				print("How many?");
-				scanf("%d",&amount);
+				getInt(amount);
 				if (amount >= 0) {
 					writeDword(hPVZProcess, SUN_ADDRESS, amount);
 					break;
 				}
-				wrongArg("Sun should be positive or zero.");
+				print("Wrong agrument. Sun should be positive or zero.");
 				break;
 			case 2:
 				if (readByte(hPVZProcess, SUB_SUN_ADDRESS) == 0x90) {
