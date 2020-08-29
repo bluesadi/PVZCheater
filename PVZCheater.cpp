@@ -63,7 +63,7 @@ int main() {
 				print("Unlimited sun on.");
 				break;
 			case 3:
-				writeByte(hPVZProcess, JUDGE_PLANT_PLACED_ADDRESS, 0x33); //85 C0 test eax, eax -> 33 C0 xor eax, eax
+				writeByte(hPVZProcess, JUDGE_PLANT_PLACED_ADDRESS, 0x33); //85 C0  test eax, eax -> 33 C0  xor eax, eax
 				break;
 			case 4:
 				print("Good bye~");
