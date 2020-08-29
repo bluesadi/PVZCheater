@@ -22,7 +22,8 @@ LPCSTR COMMANDS[100] = {
 	"1. Modify sun",
 	"2. Unlimited sun",
 	"3. Multiple plants on one grid",
-	"4. Exit"
+	"4. No cooldown",
+	"5. Exit"
 };
 
 int main() {
@@ -66,6 +67,15 @@ int main() {
 				writeByte(hPVZProcess, JUDGE_PLANT_PLACED_ADDRESS, 0x33); //85 C0  test eax, eax -> 33 C0  xor eax, eax
 				break;
 			case 4:
+				if (readByte(hPVZProcess, SET_COOLDOWN_ADDRESS)) {
+					writeByte(hPVZProcess, SET_COOLDOWN_ADDRESS, 0x00);
+					print("Cooldown on.");
+					break;
+				}
+				writeByte(hPVZProcess, SET_COOLDOWN_ADDRESS, 0x01); //mov byte ptr [ebp+48h], 0 -> mov byte ptr [ebp+48h], 1 
+				print("Cooldown off.");
+				break;
+			case 5:
 				print("Good bye~");
 				exit(0);
 			default:
