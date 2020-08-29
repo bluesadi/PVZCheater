@@ -23,7 +23,8 @@ LPCSTR COMMANDS[100] = {
 	"2. Unlimited sun",
 	"3. Multiple plants on one grid",
 	"4. No cooldown",
-	"5. Exit"
+	"5. Auto-pickup sun",
+	"6. Exit"
 };
 
 int main() {
@@ -49,7 +50,7 @@ int main() {
 					writeDword(hPVZProcess, SUN_ADDRESS, amount);
 					break;
 				}
-				print("Wrong agrument. Sun should be positive or zero.");
+				print("Bad argument. Sun should be positive or zero.");
 				break;
 			case 2:
 				if (readByte(hPVZProcess, SUB_SUN_ADDRESS) == 0x90) {
@@ -76,6 +77,13 @@ int main() {
 				print("Cooldown off.");
 				break;
 			case 5:
+				if (readByte(hPVZProcess, JUDGE_PICK_UP_SUN_ADDRESS) == 0xEB) {
+					writeByte(hPVZProcess, JUDGE_PICK_UP_SUN_ADDRESS, 0x75);
+					break;
+				}
+				writeByte(hPVZProcess, JUDGE_PICK_UP_SUN_ADDRESS, 0xEB); //75 08  jnz short loc_431599 -> EB 08  jmp short loc_431599
+				break;
+			case 6:
 				print("Good bye~");
 				exit(0);
 			default:

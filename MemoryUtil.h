@@ -7,6 +7,7 @@
 #define MAX_SUN 9990 //00430A1D 81 F9 06 27 00 00  cmp ecx, 9990
 #define JUDGE_PLANT_PLACED_ADDRESS 0x0040FE2D //85 C0  test eax, eax
 #define SET_COOLDOWN_ADDRESS 0x00488E76 //C6 45 48 00  mov byte ptr [ebp+48h], 0
+#define JUDGE_PICK_UP_SUN_ADDRESS 0x0043158F //75 08  jnz short loc_431599
 
 DWORD readDword(HANDLE hPVZProcess, DWORD address) {
 	DWORD result, dwret;
