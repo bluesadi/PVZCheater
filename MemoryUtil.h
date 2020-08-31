@@ -8,6 +8,9 @@
 #define JUDGE_PLANT_PLACED_ADDRESS 0x0040FE2D //85 C0  test eax, eax
 #define SET_COOLDOWN_ADDRESS 0x00488E76 //C6 45 48 00  mov byte ptr [ebp+48h], 0
 #define JUDGE_PICK_UP_SUN_ADDRESS 0x0043158F //75 08  jnz short loc_431599
+#define REDUCE_PLANT_HEALTH_ADDRESS 0x0052FCF0 + 3 //83 46 40 FC  add dword ptr [esi+40h], 0FFFFFFFCh
+#define REDUCE_ZOMBIE_ARMOR_ADDRESS 0x00531046 //F6 C3 04  test bl, 4
+#define REDUCE_ZOMBIE_HEALTH_ADDRESS 0x0053130F //2B 7C 24 20  sub edi, [esp+18h+arg_4]
 
 DWORD readDword(HANDLE hPVZProcess, DWORD address) {
 	DWORD result, dwret;
@@ -30,4 +33,11 @@ BYTE readByte(HANDLE hPVZProcess, DWORD address) {
 void writeByte(HANDLE hPVZProcess, DWORD address, BYTE value) {
 	DWORD dwret;
 	WriteProcessMemory(hPVZProcess, (LPVOID)address, &value, sizeof(BYTE), &dwret);
+}
+
+void writeBytes(HANDLE hPVZProcess, DWORD address, INT n, DWORD value, ...) {
+	DWORD dwret;
+	for (int i = 0; i < n; i++) {
+		writeByte(hPVZProcess, address + i, (&value)[i]);
+	}
 }

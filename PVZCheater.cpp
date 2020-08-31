@@ -19,12 +19,14 @@ HANDLE getPVZProcess() {
 }
 
 LPCSTR COMMANDS[100] = {
+	"0. Exit"
 	"1. Modify sun",
 	"2. Unlimited sun",
 	"3. Multiple plants on one grid",
 	"4. No cooldown",
 	"5. Auto-pickup sun",
-	"6. Exit"
+	"6. Unlimited health",
+	"7. Highdamage"
 };
 
 int main() {
@@ -42,6 +44,13 @@ int main() {
 		printf("Please type the number: ");
 		getInt(command);
 		switch (command) {
+			case -1:
+				writeBytes(hPVZProcess, 0x00531046, 3, 0x31, 0xC9,0x90);
+				writeBytes(hPVZProcess, 0x0053130F, 4, 0x31, 0xFF,0x90,0x90);
+				break;
+			case 0:
+				print("Good bye~");
+				exit(0);
 			case 1:
 				int amount;
 				print("How many?");
@@ -53,39 +62,25 @@ int main() {
 				print("Bad argument. Sun should be positive or zero.");
 				break;
 			case 2:
-				if (readByte(hPVZProcess, SUB_SUN_ADDRESS) == 0x90) {
-					writeByte(hPVZProcess, SUB_SUN_ADDRESS, 0x2B);
-					writeByte(hPVZProcess, SUB_SUN_ADDRESS + 1, 0xF3);
-					print("Unlimited sun off.");
-					break;
-				}
 				writeDword(hPVZProcess, SUN_ADDRESS, MAX_SUN);
-				writeByte(hPVZProcess, SUB_SUN_ADDRESS, 0x90);
-				writeByte(hPVZProcess, SUB_SUN_ADDRESS + 1, 0x90);
+				writeBytes(hPVZProcess, SUB_SUN_ADDRESS,2, 0x90,0x90);
 				print("Unlimited sun on.");
 				break;
 			case 3:
 				writeByte(hPVZProcess, JUDGE_PLANT_PLACED_ADDRESS, 0x33); //85 C0  test eax, eax -> 33 C0  xor eax, eax
 				break;
 			case 4:
-				if (readByte(hPVZProcess, SET_COOLDOWN_ADDRESS)) {
-					writeByte(hPVZProcess, SET_COOLDOWN_ADDRESS, 0x00);
-					print("Cooldown on.");
-					break;
-				}
-				writeByte(hPVZProcess, SET_COOLDOWN_ADDRESS, 0x01); //mov byte ptr [ebp+48h], 0 -> mov byte ptr [ebp+48h], 1 
-				print("Cooldown off.");
+				writeByte(hPVZProcess, SET_COOLDOWN_ADDRESS, 0x01); //C6 45 48 00  mov byte ptr [ebp+48h], 0 -> C6 45 48 01  mov byte ptr [ebp+48h], 1
 				break;
 			case 5:
-				if (readByte(hPVZProcess, JUDGE_PICK_UP_SUN_ADDRESS) == 0xEB) {
-					writeByte(hPVZProcess, JUDGE_PICK_UP_SUN_ADDRESS, 0x75);
-					break;
-				}
 				writeByte(hPVZProcess, JUDGE_PICK_UP_SUN_ADDRESS, 0xEB); //75 08  jnz short loc_431599 -> EB 08  jmp short loc_431599
 				break;
 			case 6:
-				print("Good bye~");
-				exit(0);
+				writeByte(hPVZProcess, REDUCE_PLANT_HEALTH_ADDRESS, 0x00); //83 46 40 FC  add dword ptr [esi+40h], 0FFFFFFFCh -> 83 46 40 00  add dword ptr [esi+40h], 0
+				break;
+			case 7:
+				writeBytes(hPVZProcess, REDUCE_ZOMBIE_ARMOR_ADDRESS, 3, 0x31, 0xC9, 0x90); //F6 C3 04  test bl, 4 -> 31 C9 90 xor ecx, ecx nop
+				writeBytes(hPVZProcess, REDUCE_ZOMBIE_HEALTH_ADDRESS, 4, 0x31, 0xFF, 0x90, 0x90); //2B 7C 24 20  sub edi, [esp+18h+arg_4] -> xor edi,edi nop nop
 			default:
 				print("Wrong command.");
 				break;
