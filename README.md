@@ -6,5 +6,7 @@ Please compile it with MSVC x86.\
 - Multiple plants on one grid
 - No cooldown
 - Auto-pickup sun
+- Unlimited health
+- Highdamage
 
 But there is still no GUI, you shuold type the command code to execute it.
