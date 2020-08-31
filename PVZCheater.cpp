@@ -70,6 +70,7 @@ int main() {
 			case 7:
 				writeBytes(REDUCE_ZOMBIE_ARMOR_ADDRESS, 3, 0x31, 0xC9, 0x90); //F6 C3 04  test bl, 4 -> 31 C9 90 xor ecx, ecx nop
 				writeBytes(REDUCE_ZOMBIE_HEALTH_ADDRESS, 4, 0x31, 0xFF, 0x90, 0x90); //2B 7C 24 20  sub edi, [esp+18h+arg_4] -> xor edi,edi nop nop
+				break;
 			case 8:
 				colorBullets();
 				break;
