@@ -23,5 +23,8 @@
     <ClInclude Include="MemoryUtil.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Injector.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

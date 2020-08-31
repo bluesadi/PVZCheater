@@ -152,6 +152,7 @@
     <ClCompile Include="PVZCheater.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Injector.h" />
     <ClInclude Include="MemoryUtil.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

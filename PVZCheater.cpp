@@ -1,4 +1,4 @@
-﻿#include "MemoryUtil.h"
+﻿#include "Injector.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -71,24 +71,7 @@ int main() {
 				writeBytes(REDUCE_ZOMBIE_ARMOR_ADDRESS, 3, 0x31, 0xC9, 0x90); //F6 C3 04  test bl, 4 -> 31 C9 90 xor ecx, ecx nop
 				writeBytes(REDUCE_ZOMBIE_HEALTH_ADDRESS, 4, 0x31, 0xFF, 0x90, 0x90); //2B 7C 24 20  sub edi, [esp+18h+arg_4] -> xor edi,edi nop nop
 			case 8:
-				LPVOID addr = VirtualAllocEx(hPVZProcess, NULL, 100, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
-				writeJmpRel32(0x0046C765, (DWORD)addr); //jmp to shellcode
-				writeBytes(0x0046C76A, 2, 0x90, 0x90);
-				/*
-					call _rand
-					push ebx
-					push edx
-					mov ebx, 0Dh
-					div ebx
-					mov eax, edx
-					mov [ebp+5Ch], eax
-					pop edx
-					pop ebx
-					jmp loc_46C76C
-				*/
-				writeCall((DWORD)addr, 0x0061E087);
-				writeBytes((DWORD)addr + 5, 16, 0x53, 0x52, 0xBB, 0x0D, 0x00, 0x00, 0x00, 0xF7, 0xF3, 0x89, 0xD0, 0x89, 0x45, 0x5C, 0x5A, 0x5B);
-				writeJmpRel32((DWORD)addr + 21, 0x0046C76C);
+				colorBullets();
 				break;
 			default:
 				print("Wrong command.");
