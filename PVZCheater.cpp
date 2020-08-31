@@ -72,7 +72,7 @@ int main() {
 				writeBytes(REDUCE_ZOMBIE_HEALTH_ADDRESS, 4, 0x31, 0xFF, 0x90, 0x90); //2B 7C 24 20  sub edi, [esp+18h+arg_4] -> xor edi,edi nop nop
 			case 8:
 				LPVOID addr = VirtualAllocEx(hPVZProcess, NULL, 100, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
-				writeJmpRel32(0x0046C765, (DWORD)addr);
+				writeJmpRel32(0x0046C765, (DWORD)addr); //jmp to shellcode
 				writeBytes(0x0046C76A, 2, 0x90, 0x90);
 				/*
 					call _rand
