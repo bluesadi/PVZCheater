@@ -8,5 +8,6 @@ Please compile it with MSVC x86.\
 - Auto-pickup sun
 - Unlimited health
 - Highdamage
+- Colorful bullets
 
 But there is still no GUI, you shuold type the command code to execute it.
