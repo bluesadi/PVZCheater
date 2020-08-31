@@ -8,6 +8,6 @@ Please compile it with MSVC x86.\
 - Auto-pickup sun
 - Unlimited health
 - Highdamage
-- Colorful bullets
+- Colorful bullets (Plants are able to cast different kinds of projectile)
 
 But there is still no GUI, you shuold type the command code to execute it.
