@@ -14,7 +14,7 @@ LPCSTR COMMANDS[100] = {
 	"5. Auto-pickup sun",
 	"6. Unlimited health",
 	"7. Highdamage",
-	"8. Colorful bullet"
+	"8. Colorful bullets"
 };
 
 void demo() {
